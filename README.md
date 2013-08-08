@@ -1,5 +1,7 @@
-God damnd simple markdown wrapper for g0v
+README Markdown Wrapper
 =========================================
+God damnd simple markdown wrapper for g0v
+
 
 Usage:
 ------
@@ -14,3 +16,6 @@ Sample:
 -------
 http://fact.g0v.tw/gdsmw.html?doc=/README.txt
 
+TODO:
+-----
+村長說可已把g0v.json也parse進來..
