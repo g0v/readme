@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="http://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet"></link>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+
+<script>
+
+// get the url params
+function getURLParameters(paramName) {
+    var sURL = window.document.URL.toString();  
+    if (sURL.indexOf("?") > 0) {
+
+       var arrParams = sURL.split("?");         
+       var arrURLParams = arrParams[1].split("&");      
+       var arrParamNames = new Array(arrURLParams.length);
+       var arrParamValues = new Array(arrURLParams.length);     
+       var i = 0;
+       for (i=0;i<arrURLParams.length;i++) {
+
+	        var sParam =  arrURLParams[i].split("=");
+	        arrParamNames[i] = sParam[0];
+	        if (sParam[1] != "")
+	            arrParamValues[i] = unescape(sParam[1]);
+	        else
+	            arrParamValues[i] = "No Value";
+       }
+
+       for (i=0;i<arrURLParams.length;i++){
+
+       		// find a paramName value and return the value
+            if(arrParamNames[i] == paramName){
+                return arrParamValues[i];
+            }
+       }
+
+       // return no parameter found in the paramName
+       return "No Parameters Found";
+    }
+
+}
+
+$(document).ready(function() {
+	var url_query = getURLParameters('url');
+	var md_query = getURLParameters('md');
+	var json_query = getURLParameters('json');
+	var txt_query = getURLParameters('txt');
+
+	var md_html = '';
+	var json_html = '';
+	var txt_html = '';
+
+	if(url_query !== "No Value" && md_query !== "No Value") {
+		$.get('http://' + url_query + '/' + md_query + '.md', function(data){
+			    var converter = new Showdown.converter();
+			    md_html = converter.makeHtml(data);
+			    $('html').append(md_html + '<hr>');
+			}
+		);
+	}
+
+	if(url_query !== "No Value" && json_query !== "No Value") {
+		$.get('http://' + url_query + '/' + json_query + '.json', function(data){
+			    for (var key in data) {
+					if (data.hasOwnProperty(key)) {
+						json_html +='<h4>' + key + ' : ' + data[key] + '</h4><br>';
+					}
+				}
+
+			    $('html').append(json_html + '<hr>');
+			}
+		);
+	}
+
+	if(url_query !== "No Value" && txt_query !== "No Value") {
+		$.get('http://' + url_query + '/' + txt_query + '.txt', function(data){
+				console.log(data)
+			    $('html').append(data + '<hr>');
+			}
+		);
+	}
+})
+</script>
+</head>
+<body>
+
+</body>
+</html>
