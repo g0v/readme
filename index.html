@@ -42,16 +42,9 @@ function getURLParameters(paramName) {
 
 }
 
-$(document).ready(function() {
-	var url_query = getURLParameters('url');
-	var md_query = getURLParameters('md');
-	var json_query = getURLParameters('json');
-	var txt_query = getURLParameters('txt');
 
+function getMd (url_query, md_query, callback) {
 	var md_html = '';
-	var json_html = '';
-	var txt_html = '';
-
 	if(url_query !== "No Value" && md_query !== "No Value") {
 		$.get('http://' + url_query + '/' + md_query + '.md', function(data){
 			    var converter = new Showdown.converter();
@@ -61,6 +54,11 @@ $(document).ready(function() {
 		);
 	}
 
+	callback();
+}
+
+function getJson (url_query, json_query, callback) {
+	var json_html = '';
 	if(url_query !== "No Value" && json_query !== "No Value") {
 		$.get('http://' + url_query + '/' + json_query + '.json', function(data){
 			    for (var key in data) {
@@ -74,17 +72,42 @@ $(document).ready(function() {
 		);
 	}
 
+	callback();
+}
+
+function getTxt (url_query, txt_query, callback) {
+	var txt_html = '';
 	if(url_query !== "No Value" && txt_query !== "No Value") {
 		$.get('http://' + url_query + '/' + txt_query + '.txt', function(data){
-				console.log(data)
 			    $('html').append(data + '<hr>');
 			}
 		);
 	}
+
+	callback();
+}
+
+$(document).ready(function() {
+	var url_query = getURLParameters('url') || window.location.host.toString();
+	var md_query = getURLParameters('md') || 'README';
+	var json_query = getURLParameters('json') || 'g0v';
+	var txt_query = getURLParameters('txt') || 'license';
+
+	getMd(url_query, md_query, function () {
+		getJson(url_query, json_query, function() {
+			getTxt(url_query, txt_query, function() {
+				console.log('done!')
+			})
+		})
+	})
+	
+
+	
 })
 </script>
 </head>
 <body>
 
 </body>
+
 </html>
