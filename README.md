@@ -1,6 +1,6 @@
 README Markdown Wrapper
 =========================================
-God damnd simple markdown wrapper for g0v
+God damnd simple markdown, txt, json wrapper for g0v
 
 
 Usage:
@@ -8,17 +8,15 @@ Usage:
 
 像我一樣不喜歡到處編同樣內容的，這個檔案可以快速讓你的.md變成html
 
-  - 把gdsmw.html放到目錄
-  - 存取任何公開在網路上的markdown，網址格式為query帶入doc，例如若你的檔案叫做OOOOO.md放在根目錄
-    - /gdsmw.html?doc=/OOOOO.md 就會轉換成markdown
+    params
+  - url => your url
+  - md => your markdown filename
+  - json => your json filename
+  - txt => your txt filename
 
 Sample:
 -------
-http://fact.g0v.tw/gdsmw.html?doc=/README.txt
-
-TODO:
------
-村長說可已把g0v.json也parse進來..
+http://g0v.github.io/readme/?url=g0v.github.io/tisa-map&md=README&json=g0v&txt=license
 
 Style:
 ------
